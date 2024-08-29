@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"database/sql"
 	"encoding/json"
 	"masisserson/mtg-lib/db"
 	"masisserson/mtg-lib/model"
@@ -48,23 +49,7 @@ func CreateCard(card model.Card) error {
 	return nil
 }
 
-func setColors(colors *model.ColorSet) error {
-
-	return nil
-}
-
-func GetCard(name string) (*model.Card, error) {
-	query := `
-		SELECT * FROM card
-		WHERE name = "Lightning Bolt"
-		LIMIT 1
-	`
-
-	rows, err := db.Read(query)
-	if err != nil {
-		return nil, err
-	}
-
+func extractCardRows(rows *sql.Rows) ([]*model.Card, error) {
 	var cards []*model.Card
 	for rows.Next() {
 		card := &model.Card{}
@@ -98,6 +83,26 @@ func GetCard(name string) (*model.Card, error) {
 		card.Colors.SetColors()
 
 		cards = append(cards, card)
+	}
+
+	return cards, nil
+}
+
+func GetCard(name string) (*model.Card, error) {
+	query := `
+		SELECT * FROM card
+		WHERE name = "Lightning Bolt"
+		LIMIT 1
+	`
+
+	rows, err := db.Read(query)
+	if err != nil {
+		return nil, err
+	}
+
+	cards, err := extractCardRows(rows)
+	if err != nil {
+		return nil, err
 	}
 
 	return cards[0], nil
