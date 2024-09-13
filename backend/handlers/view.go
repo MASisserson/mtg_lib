@@ -39,6 +39,7 @@ func LibViewHandler(w http.ResponseWriter, r *http.Request) {
 	// might run into trouble because I'm passing pointers rather than
 	// actual card data
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	if err := json.NewEncoder(w).Encode(cards); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
