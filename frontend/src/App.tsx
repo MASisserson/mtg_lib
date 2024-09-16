@@ -11,8 +11,8 @@ function App() {
       <header>
         <h1>Card Library</h1>
       </header>
-      <SearchBar setLibrary />
-      <Library />
+      <SearchBar setLibrary={setLibrary} />
+      {library ? <Library /> : <p>Test</p>}
     </div>
   );
 }

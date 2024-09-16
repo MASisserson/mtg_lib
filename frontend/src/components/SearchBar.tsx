@@ -1,10 +1,14 @@
 import React, { Dispatch, SetStateAction} from 'react';
 
-export default function SearchBar(setLibrary: Dispatch<SetStateAction<boolean>>): React.JSX.Element {
-  function handleClick(e: React.MouseEvent) {
+interface SearchBarProps {
+  setLibrary: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const SearchBar: React.FC<SearchBarProps> = ({ setLibrary }) => {
+  function handleClick() {
     setLibrary(false);
   }
-  
+
   return (
     <form className="max-w-md mx-auto m-4">   
       <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
@@ -20,3 +24,5 @@ export default function SearchBar(setLibrary: Dispatch<SetStateAction<boolean>>)
     </form>
   );
 }
+
+export default SearchBar;
